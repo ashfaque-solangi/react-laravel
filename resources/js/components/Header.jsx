@@ -1,13 +1,15 @@
 import React from 'react';
 
 import {Nav, Navbar} from 'react-bootstrap';
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import {getRequest} from "./../utils/server-request";
 
 
 
 function Header(props) {
 
+    const navigate = useNavigate();
+    
     const handleLogout = async (e) => {
         e.preventDefault();
 
@@ -16,7 +18,7 @@ function Header(props) {
 
             if(status)
             {
-                navigate("../register");
+                navigate("/");
             }
             else{
                 console.error('Error logging out:', message);

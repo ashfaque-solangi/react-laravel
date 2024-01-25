@@ -19,7 +19,7 @@ function MainPage() {
                 <Route path="/feedback" element={<ContactUs/>} />
                 <Route path="/register" element={<RegisterPage/>} />
                 <Route path="/login" element={<LoginPage/>} />
-                <Route path = "/ReadMore" element = {<Comment/>}  />
+                <Route path = "/comment/:id" element = {<Comment/>}  />
             </Routes>
             {/* <Footer/> */}
         </BrowserRouter>
@@ -32,8 +32,6 @@ if (document.getElementById('example')) {
     const Index = ReactDOM.createRoot(document.getElementById("example"));
 
     Index.render(
-        <React.StrictMode>
-            <MainPage/>
-        </React.StrictMode>
+        <MainPage/>
     )
 }

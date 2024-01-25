@@ -2,13 +2,11 @@
 import React, { useState, useEffect }  from 'react';
 import { Link } from "react-router-dom";
 import Comment from './Comment';
-import {feedbackRequest} from "./../utils/server-request";
+import {getRequest} from "./../utils/server-request";
 
 
 function Feedback() {
 
-    const longText =
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
     const [readMore , setReadMore] = useState(false);
 
@@ -24,11 +22,9 @@ function Feedback() {
 
     const fetchData = async (e) => {
 
-        await feedbackRequest('all_feedbacks', (res)=>{
-            const {status,message} = res;
-            console.log("res", res);
-            if(status)
-            {
+        await getRequest('all_feedbacks', (res)=>{
+            const {status,message, data} = res;
+            if(status){
                 setFeedbacks(data);
             }
             else{
@@ -43,19 +39,20 @@ function Feedback() {
         <div className="about_section layout_padding">
             <div className="container">
                 <div className="row">
-                    <div className="col-lg-8 col-sm-12">
-                        <p className="post_text">Post By : 09/06/2019</p>
-                        <h2 className="most_text">Most Awesome Blue Lake With Snow <br/>River</h2>
-                        <p className="lorem_text">
-                            {readMore ? longText : `${longText.slice(0, 100)}...`}
-                        </p>
-                        <div className="read_bt">
-                            <Link onClick={toggleReadMore}>
-                                Read More
-                            </Link>
+                    {feedbacks.map((value, index) => (
+                        <div className="col-lg-8 col-sm-12" key={index}>
+                            <h2 className="most_text">Post By : {value.name}</h2>
+                            <h5 className="post_text">Posted On : {value.created_at}</h5>
+                            <p className="lorem_text">
+                            {readMore ? value.description : `${value.description.slice(0, 100)}...`}
+                            </p>
+                            <div className="read_bt">
+                                <Link to={`/comment/${value.id}`}>
+                                    Read More
+                                </Link>
+                            </div>
                         </div>
-                        {readMore && <Comment longText={longText}/>}
-                    </div>
+                    ))}
                 </div>
             </div>
         </div>

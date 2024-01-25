@@ -92,9 +92,8 @@ class UserAuthController extends Controller
     }
 
     public function logoutUser(Request $request){
-        // auth()->user()->tokens()->delete();
         $logout = $request->user()->tokens()->delete();
-
+        // dd($logout);
         if($logout)
             return response()->json([
                 'status' => true,

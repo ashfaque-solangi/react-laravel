@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Feedback;
+use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -18,7 +20,6 @@ class FeedbackController extends Controller
     public function index()
     {
         $feedbacks = Feedback::all();
-        // return response()->json($feedbacks);
 
         return response()->json([
             'status' => true,
@@ -45,8 +46,8 @@ class FeedbackController extends Controller
         try {
             $validateUser = Validator::make($request->all(),
             [
-                'name' => 'required|email',
-                'description' => 'required',
+                'name' => 'required',
+                'message' => 'required',
             ]);
 
             if($validateUser->fails()){
@@ -60,15 +61,15 @@ class FeedbackController extends Controller
             $user = Feedback::create([
                 'name' => $request->name,
                 'email' => $request->email,
+                'user_id' => 1,
                 'phone_number' => $request->phone_number,
-                'description' => $request->description,
+                'description' => $request->message,
                 'created_at' => $currentDateTime->format('Y-m-d H:i:s'),
             ]);
 
             return response()->json([
                 'status' => true,
                 'message' => 'Feedback Created Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
             ], 200);
 
         } catch (\Throwable $th) {
@@ -82,9 +83,24 @@ class FeedbackController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Feedback $feedback)
+    public function show(Feedback $feedback, $id)
     {
-        //
+        // dd($id);
+        $feedbacks = Feedback::where('id', $id)->get();
+        $comments  = Comment::where('feedback_id', $id)->get();
+        $feedbacks[0]["comments"] = $comments;
+
+        
+        // $feedbacks = DB::table('feedback')
+        // ->join('comments', 'feedback.id', '=', 'comments.feedback_id')
+        // ->where('feedback.id', $id)
+        // ->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Feedback Created Successfully',
+            'data' => $feedbacks[0],
+        ], 200);
     }
 
     /**
@@ -92,7 +108,7 @@ class FeedbackController extends Controller
      */
     public function edit(Feedback $feedback)
     {
-        //
+        dd($feedback);
     }
 
     /**
@@ -109,5 +125,17 @@ class FeedbackController extends Controller
     public function destroy(Feedback $feedback)
     {
         //
+    }
+
+    public function getUsers()
+    {
+        $users = User::all("name as display", "id");
+        // dd($users);
+        
+        return response()->json([
+            'status' => true,
+            'message' => 'User Created Successfully',
+            'data' => $users,
+        ], 200);
     }
 }

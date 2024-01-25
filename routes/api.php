@@ -20,17 +20,18 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\CommentController;
 
 Route::post('/register',[UserAuthController::class,'registerUser']);
 Route::post('/login',[UserAuthController::class,'loginUser']);
 Route::post('/logout',[UserAuthController::class,'logoutUser']);
 
-Route::get('/all_feedbacks',[FeedbackController::class,'index']);
-// Route::match(['get', 'post'], '/all_feedbacks',[FeedbackController::class,'index']);
+Route::get('/all_feedbacks',[FeedbackController::class,'index'])->middleware('auth:sanctum');
+Route::get('/get_users',[FeedbackController::class,'getUsers'])->middleware('auth:sanctum');
+Route::post('/add_feedback',[FeedbackController::class,'store'])->middleware('auth:sanctum');
+Route::get('/feedback/{id}',[FeedbackController::class,'show'])->middleware('auth:sanctum');
 
+Route::post('/add_comment',[CommentController::class,'store']);//->middleware('auth:sanctum');
 
-// Route::get('/user', function (Request $request) {
-//     dd("DONE");
-// });
 
 
