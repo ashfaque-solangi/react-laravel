@@ -16,7 +16,7 @@ class UserAuthController extends Controller
     {
         try {
             //Validated
-            $validateUser = Validator::make($request->all(), 
+            $validateUser = Validator::make($request->all(),
             [
                 'name' => 'required',
                 'email' => 'required|email|unique:users,email',
@@ -54,7 +54,7 @@ class UserAuthController extends Controller
     public function loginUser(Request $request)
     {
         try {
-            $validateUser = Validator::make($request->all(), 
+            $validateUser = Validator::make($request->all(),
             [
                 'email' => 'required|email',
                 'password' => 'required'
@@ -91,16 +91,20 @@ class UserAuthController extends Controller
         }
     }
 
-    // wNl18tUZx3etoncClY2eIzCLpJjY2e3nQIT2DZmH11b472ed
-    // MT80pg0Bb1Bao41aQe0ZrKziWp8SIpiqIJmiesX7bee24324
-
-    public function logoutUser(){
+    public function logoutUser(Request $request){
         // auth()->user()->tokens()->delete();
-    
-        return response()->json([
-            'status' => true,
-            'message' => 'User Logged Out!...'
-        ], 500);
+        $logout = $request->user()->tokens()->delete();
+
+        if($logout)
+            return response()->json([
+                'status' => true,
+                'message' => 'User Logged Out!...'
+            ], 500);
+        else
+            return response()->json([
+                'status' => false,
+                'message' => 'Trouble in Logging Out!...'
+            ], 500);
     }
 
 }

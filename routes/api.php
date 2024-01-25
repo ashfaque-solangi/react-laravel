@@ -19,10 +19,15 @@ use Illuminate\Support\Facades\Route;
 // });
 
 use App\Http\Controllers\UserAuthController;
+use App\Http\Controllers\FeedbackController;
 
 Route::post('/register',[UserAuthController::class,'registerUser']);
 Route::post('/login',[UserAuthController::class,'loginUser']);
-Route::get('/logout',[UserAuthController::class,'logoutUser']);
+Route::post('/logout',[UserAuthController::class,'logoutUser']);
+
+Route::get('/all_feedbacks',[FeedbackController::class,'index']);
+// Route::match(['get', 'post'], '/all_feedbacks',[FeedbackController::class,'index']);
+
 
 // Route::get('/user', function (Request $request) {
 //     dd("DONE");

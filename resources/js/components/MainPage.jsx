@@ -3,14 +3,11 @@ import ReactDOM from 'react-dom/client';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import Header from './Header';
-import Footer from './Footer';
+import Comment from './Comment';
 import ContactUs from './ContactUs';
 import Feedback from './Feedback';
 
 import { BrowserRouter, Routes, Route  } from 'react-router-dom';
-import {Container, Row, Col} from "react-bootstrap";
-
-import { useState } from 'react';
 
 
 function MainPage() {
@@ -22,8 +19,9 @@ function MainPage() {
                 <Route path="/feedback" element={<ContactUs/>} />
                 <Route path="/register" element={<RegisterPage/>} />
                 <Route path="/login" element={<LoginPage/>} />
+                <Route path = "/ReadMore" element = {<Comment/>}  />
             </Routes>
-            <Footer/>
+            {/* <Footer/> */}
         </BrowserRouter>
     );
 }

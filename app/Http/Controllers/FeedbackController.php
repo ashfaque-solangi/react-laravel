@@ -17,7 +17,14 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-        //
+        $feedbacks = Feedback::all();
+        // return response()->json($feedbacks);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'User Created Successfully',
+            'data' => $feedbacks,
+        ], 200);
     }
 
     /**
@@ -34,9 +41,9 @@ class FeedbackController extends Controller
     public function store(Request $request)
     {
         $currentDateTime = Carbon::now();
-        
+
         try {
-            $validateUser = Validator::make($request->all(), 
+            $validateUser = Validator::make($request->all(),
             [
                 'name' => 'required|email',
                 'description' => 'required',

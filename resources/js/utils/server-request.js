@@ -6,4 +6,12 @@ const postRequest = async(endpoint, params, success, error) => {
     await axios.post(`${HOST_URL}/${endpoint}`, params).then((res) => res.data).then(success).catch(error);
 };
 
-export {postRequest};
+const getRequest = async(endpoint, success, error) => {
+    await axios.post(`${HOST_URL}/${endpoint}`).then((res) => res.data).then(success).catch(error);
+};
+
+const feedbackRequest = async(success, error) => {
+    await axios.post(`${HOST_URL}`).then((res) => res.data).then(success).catch(error);
+};
+
+export {postRequest, getRequest, feedbackRequest};

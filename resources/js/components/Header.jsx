@@ -1,15 +1,29 @@
 import React from 'react';
 
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-
-import logo from  '../../reactProject/images/logo.png';
-import serachIamge from  '../../reactProject/images/serach-icon.png';
-import img from  '../../reactProject/images/img-1.png';
+import {Nav, Navbar} from 'react-bootstrap';
 import { Link } from "react-router-dom";
+import {getRequest} from "./../utils/server-request";
 
 
-function Header() {
+
+function Header(props) {
+
+    const handleLogout = async (e) => {
+        e.preventDefault();
+
+        await getRequest('logout', (res)=>{
+            const {status,message} = res;
+
+            if(status)
+            {
+                navigate("../register");
+            }
+            else{
+                console.error('Error logging out:', message);
+            }
+        });
+    }
+
     return (
         <div className="header_section">
             <div className="container-fluid header_main">
@@ -31,6 +45,13 @@ function Header() {
                         <li className="nav-item">
                             <Link className="nav-link" to="/login">Login</Link>
                         </li>
+
+                        <li className="nav-item">
+                            <Link className="nav-link" onClick={handleLogout}>logout</Link>
+                        </li>
+                        {/* <li className="nav-item">
+                            <Link className="nav-link" to={props.loggedIn ? '/login' : '/login'} onClick={handleLogout}>{props.loggedIn ? 'logout' : 'login'}</Link>
+                        </li> */}
                     </Nav>
                 </div>
                 </Navbar>
