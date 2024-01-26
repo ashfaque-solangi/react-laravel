@@ -1,12 +1,20 @@
 
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import {postRequest} from "./../utils/server-request";
 
 const RegisterPage = () => {
     const [form,setForm] = useState({});
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const storedResponse = localStorage.getItem('requestResponse');
+        if (storedResponse) {
+            setRequestResponse(JSON.parse(storedResponse));
+            localStorage.removeItem('requestResponse');
+        }
+    }, []);
 
     const handlerInput = (event) => {
         const newForm = {...form};
@@ -24,7 +32,7 @@ const RegisterPage = () => {
 
         await postRequest('register',form, (res)=>{
             const {status,message} = res;
-
+            localStorage.setItem('requestResponse', JSON.stringify(message));
             if(status)
             {
                 navigate("../login");
@@ -37,6 +45,7 @@ const RegisterPage = () => {
 
           return(
             <div className="Auth-form-container">
+
                 <form className="Auth-form" onSubmit={handlerForm}>
                     <div className="Auth-form-content">
                         <div className="form-group mt-3">

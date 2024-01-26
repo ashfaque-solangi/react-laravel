@@ -7,7 +7,7 @@ import {getRequest} from "./../utils/server-request";
 
 function Feedback() {
 
-
+    const [requestResponse, setRequestResponse] = useState(null);
     const [readMore , setReadMore] = useState(false);
 
     const toggleReadMore = () => {
@@ -18,6 +18,13 @@ function Feedback() {
 
     useEffect(() => {
         fetchData();
+
+        const storedResponse = localStorage.getItem('requestResponse');
+        if (storedResponse) {
+            setRequestResponse(JSON.parse(storedResponse));
+            localStorage.removeItem('requestResponse');
+        }
+
     }, []);
 
     const fetchData = async (e) => {
@@ -39,6 +46,11 @@ function Feedback() {
         <div className="about_section layout_padding">
             <div className="container">
                 <div className="row">
+                    {requestResponse && (
+                        <div style={{ backgroundColor: 'green', color: 'white', padding: '10px', textAlign: 'center' }}>
+                            {requestResponse}
+                        </div>
+                    )}
                     {feedbacks.map((value, index) => (
                         <div className="col-lg-8 col-sm-12" key={index}>
                             <h2 className="most_text">Post By : {value.name}</h2>

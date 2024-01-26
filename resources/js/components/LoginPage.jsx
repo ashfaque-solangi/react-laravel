@@ -1,14 +1,23 @@
 
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import {postRequest} from "./../utils/server-request";
 
-const LoginPage = () => {
+const LoginPage = (props) => {
+    const [requestResponse, setRequestResponse] = useState(null);
     const [form,setForm] = useState({});
     const navigate = useNavigate();
 
     const [loggedIn, setloggedIn] = useState(null);
+
+    useEffect(() => {
+        const storedResponse = localStorage.getItem('requestResponse');
+        if (storedResponse) {
+            setRequestResponse(JSON.parse(storedResponse));
+            localStorage.removeItem('requestResponse');
+        }
+    }, []);
 
     const handlerInput = (event) => {
         const newForm = {...form};
@@ -27,7 +36,6 @@ const LoginPage = () => {
         await postRequest('login',form, (res)=>{
             const {status,message} = res;
             setloggedIn(status)
-
             if(status)
             {
                 navigate("../");
@@ -40,6 +48,11 @@ const LoginPage = () => {
 
           return(
             <div className="Auth-form-container">
+                {requestResponse && (
+                    <div style={{ backgroundColor: 'green', color: 'white', padding: '10px', textAlign: 'center' }}>
+                        {requestResponse}
+                    </div>
+                )}
                 <form className="Auth-form" onSubmit={handlerForm}>
                     <div className="Auth-form-content">
                         <div className="form-group mt-3">

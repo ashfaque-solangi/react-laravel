@@ -25,7 +25,7 @@ function ContactUs() {
 
         await postRequest('add_feedback',form, (res)=>{
             const {status,message} = res;
-
+            localStorage.setItem('requestResponse', JSON.stringify(message));
             if(status)
             {
                 navigate("/");
@@ -66,7 +66,7 @@ function ContactUs() {
                         id="email"
                         name="email"
                       />
-                      
+
                       <textarea
                         className="email_text"
                         placeholder="Feedback"
@@ -85,7 +85,7 @@ function ContactUs() {
                   </div>
               </div>
             </div>
-        </div>  
+        </div>
     )
 }
 

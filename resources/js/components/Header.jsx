@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {Nav, Navbar} from 'react-bootstrap';
 import { Link, useNavigate} from "react-router-dom";
@@ -10,10 +10,13 @@ function Header(props) {
 
     const navigate = useNavigate();
 
+    const [requestResponse, setRequestResponse] = useState(null);
+
     const handleLogout = async (e) => {
         const params = {user_id:1}
         await postRequest('logout', params, (res)=>{
             const {status,message} = res;
+            localStorage.setItem('requestResponse', JSON.stringify(message));
             if(status)
             {
                 navigate("../login");

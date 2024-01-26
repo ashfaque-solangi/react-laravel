@@ -19,7 +19,7 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-        $feedbacks = Feedback::all();
+        $feedbacks = Feedback::orderBy('id', 'desc')->get();
 
         return response()->json([
             'status' => true,
@@ -87,10 +87,10 @@ class FeedbackController extends Controller
     {
         // dd($id);
         $feedbacks = Feedback::where('id', $id)->get();
-        $comments  = Comment::where('feedback_id', $id)->get();
+        $comments  = Comment::orderBy('id', 'desc')->where('feedback_id', $id)->get();
         $feedbacks[0]["comments"] = $comments;
 
-        
+
         // $feedbacks = DB::table('feedback')
         // ->join('comments', 'feedback.id', '=', 'comments.feedback_id')
         // ->where('feedback.id', $id)
@@ -131,7 +131,7 @@ class FeedbackController extends Controller
     {
         $users = User::all("name as display", "id");
         // dd($users);
-        
+
         return response()->json([
             'status' => true,
             'message' => 'User Created Successfully',
