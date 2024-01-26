@@ -2,23 +2,21 @@ import React from 'react';
 
 import {Nav, Navbar} from 'react-bootstrap';
 import { Link, useNavigate} from "react-router-dom";
-import {getRequest} from "./../utils/server-request";
+import {postRequest} from "./../utils/server-request";
 
 
 
 function Header(props) {
 
     const navigate = useNavigate();
-    
+
     const handleLogout = async (e) => {
-        e.preventDefault();
-
-        await getRequest('logout', (res)=>{
+        const params = {user_id:1}
+        await postRequest('logout', params, (res)=>{
             const {status,message} = res;
-
             if(status)
             {
-                navigate("/");
+                navigate("../login");
             }
             else{
                 console.error('Error logging out:', message);

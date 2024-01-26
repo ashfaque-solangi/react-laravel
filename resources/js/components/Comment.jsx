@@ -9,7 +9,7 @@ function Comment(props) {
     const [feedback, setFeedback] = useState({});
     const [comment, setComment] = useState('');
     const [users, setUsers] = useState([]);
-    
+
     useEffect(()=>{
         fetchData();
         fetchUsers();
@@ -48,8 +48,6 @@ function Comment(props) {
     }
 
     return (
-        <>
-
         <div className="about_section layout_padding">
             <div className="container">
                 <div className="row mb-3">
@@ -87,7 +85,6 @@ function Comment(props) {
                 </div>
             </div>
         </div>
-        </>
     );
 }
 

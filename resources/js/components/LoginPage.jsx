@@ -30,7 +30,7 @@ const LoginPage = () => {
 
             if(status)
             {
-                navigate("../register");
+                navigate("../");
             }
             else{
                 alert(message);

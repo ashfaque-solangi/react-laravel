@@ -92,13 +92,15 @@ class UserAuthController extends Controller
     }
 
     public function logoutUser(Request $request){
+
         $logout = $request->user()->tokens()->delete();
-        // dd($logout);
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         if($logout)
             return response()->json([
                 'status' => true,
                 'message' => 'User Logged Out!...'
-            ], 500);
+            ], 200);
         else
             return response()->json([
                 'status' => false,
